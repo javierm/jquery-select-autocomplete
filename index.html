@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>untitled</title>
+	<link rel="stylesheet" type="text/css" href="autocomplete.css">
+	
+	<script type="text/javascript" src="jquery-1.3.1.min.js"></script>
+	<script type="text/javascript" src="jquery.autocomplete.pack.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+  	init_autocomplete_selects();
+  });
+  
+  function init_autocomplete_selects() {
+  	//iterate over each autocomplete select
+  	$('select.autocomplete').each(function() {
+  		//stick each of it's options in to an items array of objects with name and value attributes 
+  		var select = this;
+  		var items = [];		
+  		$(select).children('option').each(function(){
+  			var item = $(this);
+  			if (item.val() != '') //ignore empty value options
+  			{
+  				var name = item.html();
+  				var value = item.val();
+  				items.push( {'name':name, 'value':value} );
+  			}
+  		});
+
+  		//make a new input box next to the select list
+  		var input = $("<input type='text' />").appendTo('body');
+  		$(select).after(input);
+
+  		//make the input box into an autocomplete for the select items
+  		$(input).autocomplete(items, {  		
+  		  data: items,	
+  			minChars: 0,
+  			width: 310,
+  			matchContains: "word",
+  			autoFill: false,
+  			formatItem: function(row, i, max) {
+  				return row.name;
+  			},
+  			formatMatch: function(row, i, max) {
+  				return row.name;
+  			},
+  			formatResult: function(row) {
+  				return row.name;
+  			}
+  		});
+
+  		//make the result handler set the selected item in the select list
+  		$(input).result(function(event, selected_item, formatted) { 
+  			var to_be_selected = $(select).find("option[value=" + selected_item.value + "]")[0];
+  			$(to_be_selected).attr('selected', 'selected');
+  		});
+
+  		//hide the select list
+  		//$(select).hide();
+  	});
+  }
+	</script>
+</head>
+
+<body>
+  <select class="autocomplete">
+    <option value="1">One</option>
+    <option value="2">Two</option>
+    <option value="3">Three</option>
+    <option value="4">Four</option>
+    <option value="5">Five</option>
+    <option value="6">Six</option>
+    <option value="7">Seven</option>
+    <option value="8">Eight</option>
+    <option value="9">Nine</option>
+    <option value="10">Ten</option>
+  </select>
+
+</body>
+</html>
