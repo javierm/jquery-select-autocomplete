@@ -61,7 +61,7 @@
   		//set the initial text value of the autocomplete input box to the text node of the selected item in the select control
   		$(input).val($(select).find(':selected').text());
 
-  		//hide the select list
+  		//normally, you'd hide the select list but we won't for this demo
   		//$(select).hide();
   	});
   }
@@ -69,6 +69,11 @@
 </head>
 
 <body>
+  <h1>jQuery Select Autocomplete Demo</h1>
+  
+  <p>Normally, you'd have the select list hidden, but for the purposes of this demo we'll keep it visible so you can see the selected item change when
+    you make a selection via the auto-complete text input.</p>
+    
   <select class="autocomplete">
     <option value="" selected="selected"></option>    
     <option value="1">One</option>
