@@ -1,7 +1,7 @@
-jQuery.fn.select_autocomplete = function() {
+jQuery.fn.select_autocomplete = function( options ) {
   return this.each(function(){
 		if (this.tagName.toLowerCase() != 'select') { return; }
-	
+
     //stick each of it's options in to an items array of objects with name and value attributes 
     var select = this;
     var items = [];    
@@ -20,8 +20,8 @@ jQuery.fn.select_autocomplete = function() {
     $(select).after(input);
 
     //make the input box into an autocomplete for the select items
-    $(input).autocomplete(items, {      
-      data: items,  
+    var defaults = {
+      data: items,
       minChars: 0,
       width: 310,
       matchContains: false,
@@ -35,7 +35,11 @@ jQuery.fn.select_autocomplete = function() {
       formatResult: function(row) {
         return row.name;
       }
-    });
+    };
+
+    jQuery.extend( defaults, options );
+
+    $(input).autocomplete(items, defaults);
 
     //make the result handler set the selected item in the select list
     $(input).result(function(event, selected_item, formatted) { 
